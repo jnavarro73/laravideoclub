@@ -15,23 +15,31 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
-
+  'default' => env('DB_CONNECTION', 'mysql'),
     /*
-    |--------------------------------------------------------------------------
-    | Database Connections
-    |--------------------------------------------------------------------------
-    |
-    | Here are each of the database connections setup for your application.
-    | Of course, examples of configuring each database platform that is
-    | supported by Laravel is shown below to make development simple.
-    |
-    |
-    | All database work in Laravel is done through the PHP PDO facilities
-    | so make sure you have the driver for your particular database of
-    | choice installed on your machine before you begin development.
-    |
-    */
+  'default' => [
+   'host' => env('REDIS_HOST', 'localhost'),
+   'password' => env('REDIS_PASSWORD', null),
+   'port' => env('REDIS_PORT', 6379),
+   'database' => 0,
+   'read_timeout' => 60,
+],
+*/
+   /*
+   |--------------------------------------------------------------------------
+   | Database Connections
+   |--------------------------------------------------------------------------
+   |
+   | Here are each of the database connections setup for your application.
+   | Of course, examples of configuring each database platform that is
+   | supported by Laravel is shown below to make development simple.
+   |
+   |
+   | All database work in Laravel is done through the PHP PDO facilities
+   | so make sure you have the driver for your particular database of
+   | choice installed on your machine before you begin development.
+   |
+   */
 
     'connections' => [
 
