@@ -1,13 +1,12 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use App\Movie;
+namespace App\Http\Controllers;
 
-class DatabaseSeeder extends Seeder
-{	
+use Illuminate\Http\Request;
 
-	private $arrayPeliculas = array(
+class CatalogController extends Controller
+{
+    private $arrayPeliculas = array(
 		array(
 			'title' => 'El padrino',
 			'year' => '1972', 
@@ -169,40 +168,24 @@ class DatabaseSeeder extends Seeder
 			'synopsis' => 'Un joven hastiado de su gris y monótona vida lucha contra el insomnio. En un viaje en avión conoce a un carismático vendedor de jabón que sostiene una teoría muy particular: el perfeccionismo es cosa de gentes débiles; sólo la autodestrucción hace que la vida merezca la pena. Ambos deciden entonces fundar un club secreto de lucha, donde poder descargar sus frustaciones y su ira, que tendrá un éxito arrollador.'
 		)
 	);
+    public function getIndex()
+	{ 
+		//dd($this->arrayPeliculas);
+		return view('catalog.index', array('arrayPeliculas'=>$this->arrayPeliculas));
+	}
 
-
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    /*
-    public function run()
-    {
-        // $this->call(UsersTableSeeder::class);
-    }
-    */
-
-    /**
-    *
-    */
-    public function seedCatalog(){
-    	DB::table('movies')->delete();
-    	foreach( $this->arrayPeliculas as $pelicula ) {
-			$p = new Movie;
-			$p->title = $pelicula['title'];
-			$p->year = $pelicula['year'];
-			$p->director = $pelicula['director'];
-			$p->poster = $pelicula['poster'];
-			$p->rented = $pelicula['rented'];
-			$p->synopsis = $pelicula['synopsis'];
-			$p->save();
-		}		
-    }
-    
-    public function run()
+    public function getShow($id)
 	{
-		self::seedCatalog();
-		$this->command->info('Tabla catálogo inicializada con datos!');
+		return view('catalog.show', array('id'=>$id));
+	}
+
+	public function getEdit($id)
+	{
+		return view('catalog.edit', array('id'=>$id));
+	}
+
+	public function getCreate()
+	{
+		return view('catalog.create');
 	}
 }
