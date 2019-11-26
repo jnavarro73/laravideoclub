@@ -15,15 +15,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 */
+use Carbon\Carbon;
 Route::get('/usuarios', 'UserController@index');
 
 
 Route::get('/saludo', function () {
+
+$current = Carbon::now();
+$current = new Carbon();
+
+// get today - 2015-12-19 00:00:00
+$today = Carbon::today();
+dd($today);
     return "Esta es una ruta en laravel /saludo";
 });
+/*
 Route::get('saludo', function () {
     return "Esta es una ruta en laravel saludo";
 });
+*/
 /*
 / Pantalla principal
 login Login usuario
@@ -51,6 +61,12 @@ Route::get("/catalog",'CatalogController@getIndex');
 Route::get("/catalog/show/{id}",'CatalogController@getShow');
 Route::get("/catalog/create",'CatalogController@getCreate');
 Route::get("/catalog/edit/{id}",'CatalogController@getEdit');
+
+Route::post("/catalog/create",'CatalogController@postCreate');
+Route::put("/catalog/edit/{id}",'CatalogController@putEdit');
+/*
+Route::put($uri, $callback);
+*/
 /*
 Route::get('user/profile/{id}', function($id)
 {
