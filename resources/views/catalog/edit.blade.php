@@ -28,8 +28,10 @@
             <div class="col-lg-10">
 
                 <select id="year" name="year">
-                	@for ($i = 0; $i < $anyoActual; $i++)
-					<option value="{{$i}}">{{$i}}</option>
+                	@for ($i = 1900; $i < $anyoActual; $i++)
+			
+					 <option value="{{ $i }}"{{ ( $oPelicula['year'] == $i ) ? ' selected' : '' }}>{{ $i }}</option>
+					<!--<option value="{{$i}}" >{{$i}}</option>-->
 					@endfor
                 </select>
             </div>
