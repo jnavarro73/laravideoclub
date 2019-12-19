@@ -13,6 +13,7 @@
 		<div class="col-lg-10">
 		    <input type="text" class="form-control" id="title" name="title" value="{!! $oPelicula['title'] !!}">
 		</div>
+		<label for="director" class="col-lg-label">Director</label>
 		<div class="col-lg-10">
 		    <input type="text" class="form-control" id="director" name="director" value="{!! $oPelicula['director'] !!}">
 		</div>
@@ -29,7 +30,6 @@
 
                 <select id="year" name="year">
                 	@for ($i = 1900; $i < $anyoActual; $i++)
-			
 					 <option value="{{ $i }}"{{ ( $oPelicula['year'] == $i ) ? ' selected' : '' }}>{{ $i }}</option>
 					<!--<option value="{{$i}}" >{{$i}}</option>-->
 					@endfor

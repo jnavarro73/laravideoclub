@@ -15,6 +15,9 @@ class CatalogController extends Controller
     public function getIndex()
 	{ 
 		$arrayPeliculas = Movie::getMovies();
+		//usando ORM
+		$arrayPeliculas = Movie::all();
+		//TODO no necesito pasarlo a json por?
 		//dd($this->arrayPeliculas);
 		//dd($arrayPeliculas);
 		//dd($this->arrayPeliculas);
@@ -36,38 +39,42 @@ class CatalogController extends Controller
 	{	 $aPelicula = Movie::findOrFail($id)->toArray();
 		 
 		//$current = Carbon::now();
-//$current = new Carbon();
+		//$current = new Carbon();
 
-// get today - 2015-12-19 00:00:00
-//$today = Carbon::today();
-//dd($today);
+		// get today - 2015-12-19 00:00:00
+		//$today = Carbon::today();
+		//dd($today);
 
 		 $fecha_actual = Carbon::now();
 		 $anyoActual = $fecha_actual->year;
-//		 dd($anyoActual);
+		//		 dd($anyoActual);
 		return view('catalog.edit', array('oPelicula'=>$aPelicula,
 			'anyoActual'=>$anyoActual));
 	}
 
 	public function getCreate()
 	{
-		return view('catalog.create');
-	}
-	public function postCreate(Request $request){
-		$nuevaPelicula = new Movie;
+		 $fecha_actual = Carbon::now();
+		 $anyoActual = $fecha_actual->year;
 		
-    
+		return view('catalog.create', array('anyoActual'=>$anyoActual));
+	}
+	public function putCreate(Request $request){
+		
+		$nuevaPelicula = new Movie;
         // Validate the request...
 		/*
         $flight = new Flight;
-
         $flight->name = $request->name;
-
         $flight->save();
         */
         $nuevaPelicula->title = $request->title;
-        $nuevaPelicula->synopsis= $request->synopsys;
+        $nuevaPelicula->synopsis= $request->synopsis;
+        $nuevaPelicula->year = $request->year;
+        $nuevaPelicula->director = $request->director;
         $nuevaPelicula->save();
+        //TODO control errores a nivel ligero en mensajes
+        return redirect('/catalog');
     }
 	
 	public function putEdit(Request $request,$id){
@@ -94,4 +101,22 @@ class CatalogController extends Controller
         return redirect('/catalog');
        
 	}
+	/**
+	TODO
+	*/
+	public function getPoster(Request $request,$id){
+		$aPelicula = Movie::findOrFail($id);
+		//$client = new \GuzzleHttp\Client();
+		$client = new \GuzzleHttp\Client(array("https://api.themoviedb.org/"));
+		//dd($client);
+		$res = $client->get("search/movie?api_key=15d2ea6d0dc1d476efbca3eba2b9bbfb&query=".$aPelicula->title);
+		//dd($res);
+		//$res= $client->require("GET","https://api.themoviedb.org/3/search/movie?api_key=15d2ea6d0dc1d476efbca3eba2b9bbfb&query=".$aPelicula->title);
+		dd($res);
+	}
+	//Via API
+	public function putEditAPI(Request $request,$id){
+
+	}
+
 }

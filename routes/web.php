@@ -62,12 +62,26 @@ Route::get("/catalog/show/{id}",'CatalogController@getShow');
 Route::get("/catalog/create",'CatalogController@getCreate');
 Route::get("/catalog/edit/{id}",'CatalogController@getEdit');
 
-Route::post("/catalog/create",'CatalogController@postCreate');
+Route::put("/catalog/create",'CatalogController@putCreate');
 Route::put("/catalog/edit/{id}",'CatalogController@putEdit');
+
+Route::get("/catalog/poster/{id}",'CatalogController@getPoster');
+
+Route::get("/pruebasTests",function(){
+	class MyException extends Exception {}
+
+	try {
+		throw new MyException('Oops!');
+	} catch (Exception $e) {
+	echo "Caught Exceptionn";
+	} catch (MyException $e) {
+	echo "Caught MyExceptionn";
+	}
+});
 /*
+ /api/v1/catalog/{id}/rent   PUT auth.basic.once APICatalogController@putRent
+ /api/v1/catalog/{id}/return PUT auth.basic.once APICatalogController@putReturn
 Route::put($uri, $callback);
-*/
-/*
 Route::get('user/profile/{id}', function($id)
 {
 $user = // Cargar los datos del usuario a partir de $id

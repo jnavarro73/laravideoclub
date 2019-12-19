@@ -1,23 +1,49 @@
 @extends('layouts.master')
 @section('content')
-@section ('title') Crear Pelicula @stop
+@section ('title') titlCrear Pelicula @stop
 
 <h1>Crear Pelicula</h1>
 
-  <div class="row">
-    <div class="form-group col-md-4">
-     
-    </div>
-    <div class="form-group col-md-4">
-       
-    </div>
-  </div>
-  <div class="row">
-    <div class="form-group col-md-4">
- 
-    </div>
-    <div class="form-group col-md-4">
+<form action="{{ url('/catalog/create') }}" method="POST">1
   
-    </div>
-  </div>
+  {{ method_field('PUT') }}
+  {{ csrf_field() }}
 
+  <fieldset>
+    <legend>Editar mensaje</legend>
+    <div class="form-group">
+    <label for="titulo" class="col-lg-label">Título</label>
+    <div class="col-lg-10">
+        <input type="text" class="form-control" id="title" name="title" >
+    </div>
+    <label for="director" class="col-lg-label">Director</label>
+    <div class="col-lg-10">
+        <input type="text" class="form-control" id="director" name="director" >
+    </div>
+    <div class="form-group">
+            <label for="synopsis" class="col-lg-label">Sinopsis</label>
+            <div class="col-lg-10">
+                <textarea class="form-control" rows="3" id="synopsis" 
+                name="synopsis"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="anyo" class="col-lg-label">Anyo</label>
+            <div class="col-lg-10">
+                <select id="year" name="year">
+                  @for ($i = 1900; $i < $anyoActual; $i++)
+                   <option value="{{ $i }}">{{ $i }}</option>
+                  @endfor
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+              <button class="btn btn-default">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+    </div>
+  </fieldset>
+</form>
+@stop
