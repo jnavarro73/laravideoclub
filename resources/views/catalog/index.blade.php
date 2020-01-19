@@ -13,6 +13,9 @@
      <span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span>
      <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 </a>
+{{  Form::open(array('url' => '/catalog/delete/'.$pelicula->id,'method' => 'DELETE')) }}
+<button type="submit">Delete</button>
+{{  Form::close() }}
 </div>
 @endforeach
 </div>

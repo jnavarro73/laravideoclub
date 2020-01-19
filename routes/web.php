@@ -64,7 +64,13 @@ Route::get("/catalog/edit/{id}",'CatalogController@getEdit');
 
 Route::put("/catalog/create",'CatalogController@putCreate');
 Route::put("/catalog/edit/{id}",'CatalogController@putEdit');
+/* para hacer delete no puedo llegar de url get */
+/* esta es un closure */
 
+Route::delete('/catalog/delete/{id}', function(){
+	//código a ejecutar cuando se produzca esa rutay el verbo DELETE
+	return 'delete';
+});
 Route::get("/catalog/poster/{id}",'CatalogController@getPoster');
 
 Route::get("/pruebasTests",function(){
@@ -78,6 +84,8 @@ Route::get("/pruebasTests",function(){
 	echo "Caught MyExceptionn";
 	}
 });
+
+
 /*
  /api/v1/catalog/{id}/rent   PUT auth.basic.once APICatalogController@putRent
  /api/v1/catalog/{id}/return PUT auth.basic.once APICatalogController@putReturn

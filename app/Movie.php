@@ -13,7 +13,7 @@ class Movie extends Model
 	$oMovies=DB::table('movies')->orderBy('id', 'asc')->get()->toArray();
 	return $oMovies;
   
-  }
+  } 
   
   /**
   public static function getMovie($id){
