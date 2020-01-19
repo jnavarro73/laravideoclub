@@ -14,6 +14,8 @@ class Movie extends Model
 	return $oMovies;
   
   } 
+
+  
   
   /**
   public static function getMovie($id){
