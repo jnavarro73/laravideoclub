@@ -26,4 +26,13 @@ $factory->define(User::class, function (Faker $faker) {
     ];
 });
 
+$factory->define('App\Valoracion', function (Faker $faker) {
+    return [
+        'origen' => $faker->randomElement($array = array ('Desconocido','IMDB','tomatoes')),
+        'valoracion' => $faker->randomFloat(2,0,100) ,
+        'created_at' => $faker->dateTime(),
+        'updated_at' => $faker->dateTime()
+       
+    ];
+});
 
