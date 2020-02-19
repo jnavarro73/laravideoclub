@@ -68,12 +68,24 @@ class CatalogController extends Controller
         $flight->name = $request->name;
         $flight->save();
         */
+        
         $nuevaPelicula->title = $request->title;
+        $nuevaPelicula->director = $request->director;
         $nuevaPelicula->synopsis= $request->synopsis;
         $nuevaPelicula->year = $request->year;
-        $nuevaPelicula->director = $request->director;
+        //dd($nuevaPelicula);
+
+        //validation
+
+     $request->validate([
+		        'title' => 'required|max:255',
+		        'director'=>'required',
+		        'synopsis' => 'required',
+		        'year' => 'required|min:1900'
+    	]);
+
         $nuevaPelicula->save();
-        //TODO control errores a nivel ligero en mensajes
+       
         return redirect('/catalog');
     }
 	

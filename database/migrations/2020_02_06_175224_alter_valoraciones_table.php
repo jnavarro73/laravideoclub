@@ -13,9 +13,10 @@ class AlterValoracionesTable extends Migration
      */
     public function up()
     {     
-        Schema::table('valoraciones', function (Blueprint $table) {
+       /*Schema::table('valoraciones', function (Blueprint $table) {
             $table->renameColumn('8', 'valoracion');
         });
+        */
     }
 
     /**
@@ -25,9 +26,10 @@ class AlterValoracionesTable extends Migration
      */
     public function down()
     {
+        /*
         Schema::table('valoraciones', function (Blueprint $table) {
            $table->renameColumn( 'valoracion','8');
         });
-         
+         */
     }
 }
