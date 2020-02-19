@@ -14,7 +14,7 @@ class AddValoracionToMovies extends Migration
     public function up()
     {
         Schema::table('movies', function (Blueprint $table) {
-             $table->float('valoracion', 8, 2);
+             $table->float('valoracion', 8, 2)->default(5);
         });
     }
 
