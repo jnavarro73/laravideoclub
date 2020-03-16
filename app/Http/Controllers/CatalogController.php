@@ -16,7 +16,7 @@ class CatalogController extends Controller
 	{ 
 		$arrayPeliculas = Movie::getMovies();
 		//usando ORM
-		$arrayPeliculas = Movie::all();
+		$arrayPeliculas = Movie::paginate(6);
 		//TODO no necesito pasarlo a json por?
 		//dd($this->arrayPeliculas);
 		//dd($arrayPeliculas);
@@ -129,6 +129,11 @@ class CatalogController extends Controller
 	//Via API
 	public function putEditAPI(Request $request,$id){
 
+	}
+	public function destroyFilm(Request $request, $id){
+		//dd('delete');
+		Movie::find($id)->delete();
+		return redirect('/catalog');
 	}
 
 }

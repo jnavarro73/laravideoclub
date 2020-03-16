@@ -4,6 +4,8 @@
 
 use App\Movie;
 use Faker\Generator as Faker;
+use App\User;
+use Illuminate\Support\Str;
 
 $factory->define(App\Movie::class, function (Faker $faker) {
     return [
@@ -19,9 +21,7 @@ $factory->define(App\Movie::class, function (Faker $faker) {
     ];
 });
 
-use App\User;
-use Faker\Generator as Faker;
-use Illuminate\Support\Str;
+
 
 /*
 |--------------------------------------------------------------------------

@@ -66,11 +66,14 @@ Route::put("/catalog/create",'CatalogController@putCreate');
 Route::put("/catalog/edit/{id}",'CatalogController@putEdit');
 /* para hacer delete no puedo llegar de url get */
 /* esta es un closure */
-
-Route::delete('/catalog/delete/{id}', function(){
+/*
+Route::delete('/catalog/borrar/{id}', function(){
 	//código a ejecutar cuando se produzca esa rutay el verbo DELETE
-	return 'delete';
+	//return 'delete';
+	dd('route delete');
 });
+*/
+Route::delete("/catalog/borrar/{id}",'CatalogController@destroyFilm');
 Route::get("/catalog/poster/{id}",'CatalogController@getPoster');
 
 Route::get("/pruebasTests",function(){

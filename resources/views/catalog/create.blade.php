@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('content')
-@section ('title') titlCrear Pelicula @stop
+@section ('title') Crear Pelicula @stop
 
 <h1>Crear Pelicula</h1>
 
-<form action="{{ url('/catalog/create') }}" method="POST">1
+<form action="{{ url('/catalog/create') }}" method="POST">
   
   {{ method_field('PUT') }}
   {{ csrf_field() }}

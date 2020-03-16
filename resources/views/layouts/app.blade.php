@@ -18,8 +18,12 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- Tailwind css -->
+    <!--    <link rel="stylesheet" href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" />-->
+    <!--    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700" rel="stylesheet" />-->
+    <!-- fin links tailwind css -->    
 </head>
-<body>
+<body>APP BLADE
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
