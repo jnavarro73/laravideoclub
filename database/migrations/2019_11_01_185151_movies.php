@@ -15,15 +15,15 @@ class Movies extends Migration
     {   
         /**
         id Autoincremental
-title String
-year String de longitud 8
-director String de longitud 64
-poster String
-rented Booleano
-synopsis Text
-timestamps Timestamps de Eloquent
+        title String
+        year String de longitud 8
+        director String de longitud 64
+        poster String
+        rented Booleano
+        synopsis Text
+        timestamps Timestamps de Eloquent
 
- $table->bigIncrements('id');
+            $table->bigIncrements('id');
             $table->string('name');
             $table->string('email',60)->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -39,6 +39,7 @@ timestamps Timestamps de Eloquent
             $table->string('poster');
             $table->boolean('rented')->default(false);
             $table->text('synopsis');
+
             $table->timestamps();
         });
     }

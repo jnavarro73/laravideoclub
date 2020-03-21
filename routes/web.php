@@ -105,3 +105,9 @@ $user = // Cargar los datos del usuario a partir de $id
 return view('user.profile', array('user' => $user));
 });
 */
+Route::get('/images/{attachment}',function($attachment){
+	$file = sprintf('/storage/app/public/%s',$attachment);
+	if (File::exists($file)){
+		return \Intervention\Image\Facades\Image::make('/images');
+	}
+});

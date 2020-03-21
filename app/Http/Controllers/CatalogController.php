@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Request;
 //require Carbon\Carbon;
 use Carbon\Carbon;
-
+use App\Product; 
+use Faker\Generator as Faker; 
 class CatalogController extends Controller
 {
     
@@ -32,6 +33,14 @@ class CatalogController extends Controller
 		$aPelicula = Movie::findOrFail($id)->toArray();
 		//dd($aPelicula);
 		
+		// Logica decidir si cojo loreips o directamente imagen
+		// y meter en urlimagenposter
+		/*
+			if (!empty(strstr($aPelicula->poster,"http"))){$aPelicula->urlimagenposter = $aPelicula->poster;}
+			else {$aPelicula->urlimagenposter = "/images/".$aPelicula->poster;}
+		*/
+
+			//$aPelicula->urlimagenposter = $aPelicula->poster;
 		return view('catalog.show', array('oPelicula'=>$aPelicula));
 	}
 
@@ -59,6 +68,7 @@ class CatalogController extends Controller
 		
 		return view('catalog.create', array('anyoActual'=>$anyoActual));
 	}
+
 	public function putCreate(Request $request){
 		
 		$nuevaPelicula = new Movie;
@@ -68,25 +78,40 @@ class CatalogController extends Controller
         $flight->name = $request->name;
         $flight->save();
         */
+      // TODO dice que no existe Input; debe ser pk no existe Form::  
+      // $file = Input::Hasfile('imagen');
+        $file = $request->imagen;
+       //dd($file);
+        if(!empty($file)){
+        	$sFichero = time().'-'.$file->getClientOriginalName();
+        	$file->move(public_path('').'/images/'.$sFichero);
+        	$nuevaPelicula->poster = $sFichero;
         
-        $nuevaPelicula->title = $request->title;
+        }else {
+        	// getPoster (api externa)
+        	// or
+        	// lore ips
+        }
+
+        $nuevaPelicula->title    = $request->title;
         $nuevaPelicula->director = $request->director;
-        $nuevaPelicula->synopsis= $request->synopsis;
-        $nuevaPelicula->year = $request->year;
+        $nuevaPelicula->synopsis = $request->synopsis;
+        $nuevaPelicula->year     = $request->year;
+        
         //dd($nuevaPelicula);
-
+        
         //validation
-
-     $request->validate([
-		        'title' => 'required|max:255',
-		        'director'=>'required',
-		        'synopsis' => 'required',
-		        'year' => 'required|min:1900'
-    	]);
-
+ 		
+     	$request->validate([
+			        'title' 	=> 	'required|max:255',
+			        'director'	=>	'required',
+			        'synopsis' 	=> 	'required',
+			        'year' 		=> 	'required|numeric|min:1900'
+    			]);
+     	
         $nuevaPelicula->save();
-       
-        return redirect('/catalog');
+      // dd('kk');
+       return redirect('/catalog/');
     }
 	
 	public function putEdit(Request $request,$id){
@@ -95,21 +120,21 @@ class CatalogController extends Controller
 		//$id = $request->input('id');
 		//dd($id);
 		$aPelicula = Movie::findOrFail($id);
-		
     
         // Validate the request...
 		/*
-        $flight = new Flight;
-
-        $flight->name = $request->name;
-
-        $flight->save();
+	        $flight = new Flight;
+	        $flight->name = $request->name;
+	        $flight->save();
         */
        
         $aPelicula->title = $request->title;
+        $aPelicula->director = $request->director;
         $aPelicula->synopsis= $request->synopsis;
         $aPelicula->year = $request->year;
+
         $aPelicula->update();
+
         return redirect('/catalog');
        
 	}
@@ -122,7 +147,7 @@ class CatalogController extends Controller
 		$client = new \GuzzleHttp\Client(array("https://api.themoviedb.org/"));
 		//dd($client);
 		$res = $client->get("search/movie?api_key=15d2ea6d0dc1d476efbca3eba2b9bbfb&query=".$aPelicula->title);
-		//dd($res);
+		dd($res);
 		//$res= $client->require("GET","https://api.themoviedb.org/3/search/movie?api_key=15d2ea6d0dc1d476efbca3eba2b9bbfb&query=".$aPelicula->title);
 		dd($res);
 	}
