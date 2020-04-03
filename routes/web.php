@@ -111,3 +111,12 @@ Route::get('/images/{attachment}',function($attachment){
 		return \Intervention\Image\Facades\Image::make('/images');
 	}
 });
+
+Route::get('welcome/{locale}', function ($locale) {
+    App::setLocale($locale);
+
+    //
+});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

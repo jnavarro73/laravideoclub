@@ -32,13 +32,20 @@ class Movies extends Migration
             $table->timestamps();
         */
         Schema::create('movies', function (Blueprint $table) {
+            
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('year',8);
-            $table->string('director',64);
+        
             $table->string('poster');
-            $table->boolean('rented')->default(false);
+            $table->boolean('vista')->default(false);
             $table->text('synopsis');
+
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories');
+
+            $table->unsignedBigInteger('director_id');
+            $table->foreign('director_id')->references('id')->on('directors');
 
             $table->timestamps();
         });

@@ -6,7 +6,7 @@
 		{
 		  width:480px;
 		  border: solid 1px #555;
-		  background-color: #073900;
+		  background-color: #362323;
 		  box-shadow: 5px -5px 2px  rgba(0,0,0,0.2);
 		  -moz-box-shadow: 5px -5px 2px  rgba(0,0,0,0.2);
 		  -webkit-box-shadow: 5px -5px 2px  rgba(0,0,0,0.2);
@@ -20,10 +20,18 @@
 		.titulomolon{
 
 		}
+		.abs-center {
+		  display: flex;
+		  /*align-items: center;*/
+		  justify-content: center;
+		  /*min-height: 100vh;*/
+		}
+
+
 </style>
 
 <div id="wrapper">
-	<h1 class="text-hide" style="background-image: url('/images/palomitas.jpeg'); width: 400px; height: 200px;">Bootstrap</h1>	
+	<!--<h1 class="text-hide" style="background-image: url('/images/palomitas.jpeg'); width: 400px; height: 200px;">Bootstrap</h1>	-->
 	<div id="container ">
 		<br><br><div id="page ">
 			<h2>Catálogo de peliculas y series </h2>
@@ -43,10 +51,15 @@
 							
 									<!--<img src="http://lorempixel.com/350/230/" style="height:200px"/>-->
 									<img src="http://placeimg.com/160/260/any" class="roundCornerImage" style="height:250"/>
-
-								
 							</a>
 						</div>	
+						@php 
+						$locale = App::getLocale();
+
+						if (App::isLocale('es')) {
+						   //echo $pelicula->title;
+						}
+						@endphp
 						<div class="col-xs-4 col-sm-4 col-md-6   flex-column"  style="padding-left: 7px; padding-right: 0px;">
 							<div class="btn-group btn-group-lg flex-column" >
 								<p class="text-center"><a href="{{ url('/catalog/show/' . $pelicula->id) }}">
@@ -56,7 +69,7 @@
 									</a>
 								</p><br>
 								<p class="text-left mr-1">
-									<span class="text-left font-weight-light" style="color:white;font-family: 'Montez', cursive;">{{  Str::limit($pelicula->synopsis,150 )}}</span>
+									<span class="text-left font-weight-light" style="color:white;font-family: 'Montez', cursive;">{{  Str::limit($pelicula->synopsis,160 )}}</span>
 								</p>
 
 							</div>	
@@ -85,7 +98,7 @@
 			@endforeach
 		</div>
 	</div>
-	<div class="container justify-content-center mt-3 pt-3">
+	<div class="container  justify-content-center mt-3 pt-3 abs-center">
 		<div class="w-25 justify-content-center ">	
 			{{ $arrayPeliculas->links() }}
 		</div>

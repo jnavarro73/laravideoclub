@@ -13,10 +13,17 @@
 		<div class="col-lg-10">
 		    <input type="text" class="form-control" id="title" name="title" value="{!! $oPelicula['title'] !!}">
 		</div>
-		<label for="director" class="col-lg-label">Director</label>
+	<!--
+        <label for="director" class="col-lg-label">Director</label>
 		<div class="col-lg-10">
 		    <input type="text" class="form-control" id="director" name="director" value="{!! $oPelicula['director'] !!}">
 		</div>
+    
+        <label for="director" class="col-lg-label">Categoria</label>
+        <div class="col-lg-10">
+            <input type="text" class="form-control" id="categoria" name="categoria" value="{!! $oPelicula['categoria'] !!}">
+        </div>
+    -->
 		<div class="form-group">
             <label for="synopsis" class="col-lg-label">Sinopsis</label>
             <div class="col-lg-10">
@@ -36,6 +43,20 @@
                 </select>
             </div>
         </div>
+        <div class="form-group">        
+            <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" id="vistoChecked" name="visto" @if (empty($oPelicula['visto'])) checked @endif >
+              <label class="custom-control-label" for="defaultUnchecked">Visto</label>
+            </div>
+
+            <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" id="noVistoChecked" name="visto"  @if (!empty($oPelicula['visto'])) checked @endif>
+              <label class="custom-control-label" for="defaultChecked">No visto</label>
+            </div>
+        </div>
+
+
+
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
 	            <button class="btn btn-default">Cancelar</button>

@@ -13,7 +13,7 @@ class ValoracionesTableSeeder extends Seeder
     {
         //TODO y si el id es el de la pelicula
         // No tengo el campo
-       
+        DB::table('valoraciones')->delete();
         factory('App\Valoracion',50)->create();
     }
 }

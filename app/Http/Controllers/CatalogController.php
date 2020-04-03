@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 //require $_SERVER['document_root'].'/vendor/autoload.php';
 
 use App\Movie;
+use App\Director;
+use App\Categoria;
+use App\Events\IntroducidaNuevaPeliculaSinVer;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Request;
 //require Carbon\Carbon;
 use Carbon\Carbon;
 use App\Product; 
-use Faker\Generator as Faker; 
+use Faker\Generator as Faker;
+use App\User;
+use App\Notifications\MovieUpdated;
+
+//TODO dicen q hay peligro de usar muchas facades
+use Illuminate\Support\Facades\Notification;
+
 class CatalogController extends Controller
 {
     
@@ -30,7 +39,9 @@ class CatalogController extends Controller
 
 		//$aPelicula = Movie::getMovie($id);
 		//$aPelicula = Movie::find($id);
-		$aPelicula = Movie::findOrFail($id)->toArray();
+		//$aPelicula = Movie::findOrFail($id)->toArray();
+		$aPelicula = Movie::findOrFail($id);
+		//$aPelicula->categoria = $aPelicula->categoria();
 		//dd($aPelicula);
 		
 		// Logica decidir si cojo loreips o directamente imagen
@@ -39,13 +50,15 @@ class CatalogController extends Controller
 			if (!empty(strstr($aPelicula->poster,"http"))){$aPelicula->urlimagenposter = $aPelicula->poster;}
 			else {$aPelicula->urlimagenposter = "/images/".$aPelicula->poster;}
 		*/
+			
 
 			//$aPelicula->urlimagenposter = $aPelicula->poster;
 		return view('catalog.show', array('oPelicula'=>$aPelicula));
 	}
 
 	public function getEdit($id)
-	{	 $aPelicula = Movie::findOrFail($id)->toArray();
+	{	 
+		$aPelicula = Movie::findOrFail($id)->toArray();
 		 
 		//$current = Carbon::now();
 		//$current = new Carbon();
@@ -53,19 +66,24 @@ class CatalogController extends Controller
 		// get today - 2015-12-19 00:00:00
 		//$today = Carbon::today();
 		//dd($today);
-
+		 $aPelicula['director']  = Director::findOrFail($aPelicula['director_id'])->name;
+		 $aPelicula['categoria'] = Director::findOrFail($aPelicula['category_id'])->categoria;
 		 $fecha_actual = Carbon::now();
 		 $anyoActual = $fecha_actual->year;
+		 // por hacer arbol categorias - subcategorias
+		 $breadcrum_categorias = "";
 		//		 dd($anyoActual);
-		return view('catalog.edit', array('oPelicula'=>$aPelicula,
-			'anyoActual'=>$anyoActual));
+		return view('catalog.edit', 
+					array('oPelicula'=>$aPelicula, 
+						  $breadcrum_categorias,
+						  'anyoActual'=>$anyoActual));
 	}
 
 	public function getCreate()
 	{
 		 $fecha_actual = Carbon::now();
 		 $anyoActual = $fecha_actual->year;
-		
+		 
 		return view('catalog.create', array('anyoActual'=>$anyoActual));
 	}
 
@@ -93,24 +111,41 @@ class CatalogController extends Controller
         	// lore ips
         }
 
-        $nuevaPelicula->title    = $request->title;
-        $nuevaPelicula->director = $request->director;
-        $nuevaPelicula->synopsis = $request->synopsis;
-        $nuevaPelicula->year     = $request->year;
+
+        // $nuevaPelicula->director = $request->director;
+        //$nuevaPelicula->director_id = $request->director;
         
+        $nuevaPelicula->title       = $request->title;
+        $nuevaPelicula->director_id = 1;
+        $nuevaPelicula->category_id = 1;
+        $nuevaPelicula->vista 		= false;
+        $nuevaPelicula->poster   	= '';
+        $nuevaPelicula->synopsis 	= $request->synopsis;
+        $nuevaPelicula->year     	= $request->year;
+     	
         //dd($nuevaPelicula);
         
         //validation
  		
      	$request->validate([
-			        'title' 	=> 	'required|max:255',
-			        'director'	=>	'required',
-			        'synopsis' 	=> 	'required',
-			        'year' 		=> 	'required|numeric|min:1900'
+			        'title' 		=> 	'required|max:255',
+			        //'director_id'	=>	'required',
+			        //'category_id'	=>	'required',
+			        'synopsis' 		=> 	'required',
+			        'year' 			=> 	'required|numeric|min:1900',
+			        //'vista'			=>  'required'
     			]);
      	
         $nuevaPelicula->save();
       // dd('kk');
+
+        //EVENTO QUE ENVIA MAIL SI ES NOVEDAD 
+      //  var_dump($nuevaPelicula);
+        if($nuevaPelicula->vista == false){
+        	IntroducidaNuevaPeliculaSinVer::dispatch($nuevaPelicula);
+        	//event(new IntroducidaNuevaPeliculaSinVer($nuevaPelicula->title));
+        }
+
        return redirect('/catalog/');
     }
 	
@@ -129,12 +164,44 @@ class CatalogController extends Controller
         */
        
         $aPelicula->title = $request->title;
-        $aPelicula->director = $request->director;
-        $aPelicula->synopsis= $request->synopsis;
-        $aPelicula->year = $request->year;
+        //$aPelicula->director = $request->director;
+        //TODO  HARDCODED QUE POR LO VISTO no se lo traga
+        $request->director_id   = 1;
+        $request->category_id   = 1;
+        $aPelicula->director_id = $request->director_id;
+        $aPelicula->category_id = $request->category_id;
+        $aPelicula->director_id = 1;
+        $aPelicula->category_id = 1;
+        $aPelicula->synopsis    = $request->synopsis;
+        $aPelicula->year        = $request->year;
+//dd($request);
+
+        	$request->validate([
+			        'title' 		=> 	'required|max:255',
+			       //'director_id'	=>	'required',
+			       // 'category_id'	=>	'required',
+			        'synopsis' 		=> 	'required',
+			        'year' 			=> 	'required|numeric|min:1900'
+    			]);
 
         $aPelicula->update();
 
+
+
+
+        // Si llego aqui es pk ha conseguido hacer el update sin error.
+        // Enviar una NOTIFICACION por ejemplo
+
+        //$user->notify(new InvoicePaid($invoice));
+        $users = User::all();
+        //facade way:
+        Notification::send($users, new MovieUpdated($aPelicula));
+        /*
+        foreach ($users as $user) {
+        	$user->notify(new MovieUpdated($aPelicula));
+        	# code...
+        }*/
+        
         return redirect('/catalog');
        
 	}

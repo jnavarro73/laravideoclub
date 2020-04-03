@@ -14,7 +14,7 @@
         <!-- <link rel="stylesheet" href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" />-->
         <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700" rel="stylesheet" />-->
     <!-- fin links tailwind css -->
-    <title>Videoclubb</title>
+    <title>{{ __('general.gestor_pelis') }}</title>
   </head>
   <body>
   
