@@ -74,11 +74,12 @@
 
 							</div>	
 							<div class="btn-group btn-group-lg align-content-start" >	
+								@can('update',$errors)
 								<a class="nav-link" href="{{url('/catalog/edit/'.$pelicula->id)}}">
 									<!--<span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span>-->
 									<button type="button" class=" btn btn-info">Edit</button>
 								</a>
-								
+								@endcan
 								<form method="POST" style="padding:.5rem 0rem;" action="{{url('/catalog/borrar/'.$pelicula->id)}}">
 									{{ method_field('DELETE') }}
 									{{ csrf_field()}}

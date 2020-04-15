@@ -13,8 +13,9 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'sync'),
-
+    //'default' => env('QUEUE_CONNECTION', 'sync'),
+    //voy a crear una cola 
+    'default' => env('QUEUE_CONNECTION', 'database'),
     /*
     |--------------------------------------------------------------------------
     | Queue Connections

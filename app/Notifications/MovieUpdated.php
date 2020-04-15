@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 
-class MovieUpdated extends Notification
+class MovieUpdated extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -49,6 +49,14 @@ class MovieUpdated extends Notification
                     ->line('The introduction to the notification.')
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
+
+                    //Esto no se puede hacer
+                    //->queue();
+
+                    /*
+                      Mail::to($request->user())
+            ->queue(new TestMail());
+                    */
     }
 
     /**

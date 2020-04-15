@@ -44,7 +44,7 @@ catalog/create Añadir película
 catalog/edit/{id} Modificar película {id}
 */
 Route::get("/home",'HomeController@index');
-Route::get("/",'HomeController@getHome');
+Route::get("/",'CatalogController@getHome');
 //Route::get("login",'AuthController@index');
 //Route::get("logout",'LoginController@index');
 
@@ -52,18 +52,18 @@ Route::get("/",'HomeController@getHome');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get("/catalog",'CatalogController@getIndex');
+Route::get("/catalog",'MovieController@getIndex');
 /*Route::get('/catalog', function(){
-	return view('catalog.index','CatalogController@getIndex');
+	return view('catalog.index','MovieController@getIndex');
 
 });
 */
-Route::get("/catalog/show/{id}",'CatalogController@getShow');
-Route::get("/catalog/create",'CatalogController@getCreate');
-Route::get("/catalog/edit/{id}",'CatalogController@getEdit');
+Route::get("/catalog/show/{id}",'MovieController@getShow');
+Route::get("/catalog/create",'MovieController@getCreate');
+Route::get("/catalog/edit/{id}",'MovieController@getEdit');
 
-Route::put("/catalog/create",'CatalogController@putCreate');
-Route::put("/catalog/edit/{id}",'CatalogController@putEdit');
+Route::put("/catalog/create",'MovieController@putCreate');
+Route::put("/catalog/edit/{id}",'MovieController@putEdit');
 /* para hacer delete no puedo llegar de url get */
 /* esta es un closure */
 /*
@@ -73,8 +73,8 @@ Route::delete('/catalog/borrar/{id}', function(){
 	dd('route delete');
 });
 */
-Route::delete("/catalog/borrar/{id}",'CatalogController@destroyFilm');
-Route::get("/catalog/poster/{id}",'CatalogController@getPoster');
+Route::delete("/catalog/borrar/{id}",'MovieController@destroyFilm');
+Route::get("/catalog/poster/{id}",'MovieController@getPoster');
 
 Route::get("/pruebasTests",function(){
 	class MyException extends Exception {}
@@ -90,8 +90,8 @@ Route::get("/pruebasTests",function(){
 
 
 /*
- /api/v1/catalog/{id}/rent   PUT auth.basic.once APICatalogController@putRent
- /api/v1/catalog/{id}/return PUT auth.basic.once APICatalogController@putReturn
+ /api/v1/catalog/{id}/rent   PUT auth.basic.once APIMovieController@putRent
+ /api/v1/catalog/{id}/return PUT auth.basic.once APIMovieController@putReturn
 Route::put($uri, $callback);
 Route::get('user/profile/{id}', function($id)
 {

@@ -15,7 +15,7 @@ return [
     'Login' => 'Autentificacion',
     'Register' => 'Registro',
     'gestor_pelis' => 'Gestor de series y peliculas',
-    'Catalogo' => 'Catálogo'
-
+    'Catalogo' => 'Catálogo',
+    'cambia_idioma' => 'Cambiar de idioma',
 ];
 ?>

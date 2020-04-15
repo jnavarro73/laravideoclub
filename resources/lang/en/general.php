@@ -1,6 +1,7 @@
 <?php
 return [
 	'gestor_pelis' => 'Movie and series manager',
-	'Catalogo' => 'Catálogo'
+	'Catalogo' => 'Catalog',
+	'cambia_idioma' => 'Change language',
 ];
 ?>
