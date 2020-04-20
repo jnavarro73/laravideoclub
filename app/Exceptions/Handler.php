@@ -45,7 +45,14 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
-    {
+    {   
+
+        //Excepcion añadida paquete roles permisos
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+
+            return response()->json(['User have not permission for this page access.']);
+
+        }
         return parent::render($request, $exception);
     }
 }

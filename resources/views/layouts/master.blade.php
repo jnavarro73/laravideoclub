@@ -16,7 +16,10 @@
     <!-- fin links tailwind css -->
     <title>{{ __('general.gestor_pelis') }}</title>
   </head>
-  <body>
+  <body>Locale en master y lang son:
+    {{ App::getLocale() }}
+    {{ session('lang')}}
+
   
   @include('partials.navbar')
  

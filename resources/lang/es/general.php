@@ -17,5 +17,7 @@ return [
     'gestor_pelis' => 'Gestor de series y peliculas',
     'Catalogo' => 'Catálogo',
     'cambia_idioma' => 'Cambiar de idioma',
+    'nuevapelicula' => 'Nueva Pelicula',
+    'catalogotitulo' => 'Catálogo de peliculas y pelis'
 ];
 ?>

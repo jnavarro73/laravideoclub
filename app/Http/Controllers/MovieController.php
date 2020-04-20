@@ -15,22 +15,23 @@ use App\Product;
 use Faker\Generator as Faker;
 use App\User;
 use App\Notifications\MovieUpdated;
-
+use App;
 //TODO dicen q hay peligro de usar muchas facades
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redis;
 //harcodeado para tener $user autenticado
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
     
-    public function getIndex()
+    public function getIndex(Request $request)
 	{ 
 
+		//dd($request->session());
 
-
+		
 		$arrayPeliculas = Movie::getMovies();
 		//usando ORM
 		$arrayPeliculas = Movie::paginate(6);
@@ -38,6 +39,7 @@ class MovieController extends Controller
 		//dd($this->arrayPeliculas);
 		//dd($arrayPeliculas);
 		//dd($this->arrayPeliculas);
+
 		return view('catalog.index', array('arrayPeliculas'=>$arrayPeliculas));
 	}
 
@@ -50,7 +52,9 @@ class MovieController extends Controller
 		$aPelicula = Movie::findOrFail($id);
 		//$aPelicula->categoria = $aPelicula->categoria();
 		//dd($aPelicula);
-		
+		$visibility = Storage::getVisibility($aPelicula->poster);
+		Storage::setVisibility($aPelicula->poster,'public');
+		dd($visibility);
 		// Logica decidir si cojo loreips o directamente imagen
 		// y meter en urlimagenposter
 		/*
@@ -66,7 +70,9 @@ class MovieController extends Controller
 	public function getEdit($id)
 	{	 
 		$aPelicula = Movie::findOrFail($id)->toArray();
-		 
+		//$locale = App::getLocale();
+		//var_dump($locale);
+
 		//$current = Carbon::now();
 		//$current = new Carbon();
 
@@ -76,15 +82,16 @@ class MovieController extends Controller
 
 		//traer lista de directores
 		
-//Traer y meter en cache --- si ha pasado una hora --- la lista de directores.
-$listaDirectores = cache()->remember('listadirectores', 3600, function () {
-  
-    $oDirectores = Director::all();
-		foreach ($oDirectores as $key => $value) {
-			$aDirectores[] = $value->name;
-		};
-		return $aDirectores;
-});
+		//Traer y meter en cache --- si ha pasado una hora --- la lista de directores.
+		$listaDirectores = cache()->remember('listadirectores', 3600, function () {
+		  
+		    $oDirectores = Director::all();
+			
+			foreach ($oDirectores as $key => $value) {
+				$aDirectores[] = $value->name;
+			};
+			return $aDirectores;
+		});
 
 //Redis::set('lista_directores', $aDirectores);
 
@@ -127,12 +134,16 @@ $listaDirectores = cache()->remember('listadirectores', 3600, function () {
       // TODO dice que no existe Input; debe ser pk no existe Form::  
       // $file = Input::Hasfile('imagen');
         $file = $request->imagen;
-       //dd($file);
+    	
         if(!empty($file)){
-        	$sFichero = time().'-'.$file->getClientOriginalName();
-        	$file->move(public_path('').'/images/'.$sFichero);
-        	$nuevaPelicula->poster = $sFichero;
-        
+        	 
+
+    // Generate a file name with extension
+    $fileName = 'profile-'.time().'.'.$file->getClientOriginalExtension();
+
+    // Save the file
+    $path = $file->storeAs('images', $fileName);
+        $nuevaPelicula->poster = $fileName;
         }else {
         	// getPoster (api externa)
         	// or
@@ -147,7 +158,7 @@ $listaDirectores = cache()->remember('listadirectores', 3600, function () {
         $nuevaPelicula->director_id = 1;
         $nuevaPelicula->category_id = 1;
         $nuevaPelicula->vista 		= false;
-        $nuevaPelicula->poster   	= '';
+        $nuevaPelicula->poster   	= $nuevaPelicula->poster;
         $nuevaPelicula->synopsis 	= $request->synopsis;
         $nuevaPelicula->year     	= $request->year;
      	
@@ -187,8 +198,8 @@ $listaDirectores = cache()->remember('listadirectores', 3600, function () {
 
 
 		$aPelicula = Movie::findOrFail($id);
-//miramos si hay permiso 
-$this->authorize('update',$aPelicula);
+		//miramos si hay permiso 
+		$this->authorize('update',$aPelicula);
 
 
     
@@ -199,6 +210,26 @@ $this->authorize('update',$aPelicula);
 	        $flight->save();
         */
        
+	        // gestion image 
+	  $file = $request->imagen;
+
+	if(!empty($file)){
+        	 
+	//	dd($file);
+    // Generate a file name with extension
+    $fileName = 'profile-'.time().'.'.$file->getClientOriginalExtension();
+//dd($fileName);
+    // Save the file
+    $path = $file->storeAs('images', $fileName);
+    $aPelicula->poster = $fileName;
+    }else {
+    	//dd($file);
+        	// getPoster (api externa)
+        	// or
+        	// lore ips
+    }
+//TODO la imagen antigua borrarla o 
+//montar una tabla imagenes, una de cruce movie-imagen con un campo activo. 
 
 
 

@@ -34,7 +34,7 @@
 	<!--<h1 class="text-hide" style="background-image: url('/images/palomitas.jpeg'); width: 400px; height: 200px;">Bootstrap</h1>	-->
 	<div id="container ">
 		<br><br><div id="page ">
-			<h2>Catálogo de peliculas y series </h2>
+			<h2>{{__('general.catalogotitulo')}}</h2>
 		</div><br>
 
 		<div class="row">
@@ -47,10 +47,10 @@
 						<div class="col-xs-4 col-sm-4 col-md-6 text-center " style="padding-left: 5px; padding-right: 0px;padding-bottom: 5px;">
 							<a href="{{ url('/catalog/show/' . $pelicula->id) }}">
 								<!-- TODO decidir si montar un asset  o no dependiendo de si es externo o interno link -->
-								<!--<img src="{{ asset('images/'.$pelicula->poster) }}" style="height:200px"/>-->
-							
+								<!--<img src="{{ asset($pelicula->poster) }}" style="height:200px"/>-->
+							<img src="{{ route('displayImage',$pelicula->poster) }}" alt="" title="">
 									<!--<img src="http://lorempixel.com/350/230/" style="height:200px"/>-->
-									<img src="http://placeimg.com/160/260/any" class="roundCornerImage" style="height:250"/>
+									<!--<img src="http://placeimg.com/160/260/any" class="roundCornerImage" style="height:250"/>-->
 							</a>
 						</div>	
 						@php 
@@ -74,7 +74,7 @@
 
 							</div>	
 							<div class="btn-group btn-group-lg align-content-start" >	
-								@can('update',$errors)
+								@can('update',$pelicula)
 								<a class="nav-link" href="{{url('/catalog/edit/'.$pelicula->id)}}">
 									<!--<span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span>-->
 									<button type="button" class=" btn btn-info">Edit</button>
